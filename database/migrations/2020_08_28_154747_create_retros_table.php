@@ -18,7 +18,7 @@ class CreateRetrosTable extends Migration
             $table->timestamps();
             $table->foreignId('owner_id');
             $table->string('title');
-            $table->mediumText('description');
+            $table->mediumText('description')->nullable();
             $table->enum('status', ['draft', 'publish', 'archive']);
         });
     }
