@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Retro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RetroController extends Controller
 {
@@ -15,11 +17,17 @@ class RetroController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+
         $retros = DB::table('retros')
+        ->where('owner_id', $user->id)
         ->orderBy('created_at', 'desc')
         ->get();
 
-        return view('retro.index', ['retros' => $retros]);
+        return view('retro.index', [
+            'retros' => $retros,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -29,7 +37,9 @@ class RetroController extends Controller
      */
     public function create()
     {
-        return view('retro.create');
+        return view('retro.create', [
+            'user' => Auth::user()
+        ]);
     }
 
     /**
@@ -41,15 +51,9 @@ class RetroController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => [
+            'title' => [
                 'required',
                 'max:255',
-            ],
-            'owner_id' => [
-                'required',
-            ],
-            'participants' => [
-                'required'
             ],
             'status' => [
                 'required',
@@ -58,9 +62,9 @@ class RetroController extends Controller
         ]);
 
         $retro = new Retro;
-        $retro->name = $request->name;
-        $retro->owner_id = (int)$request->owner_id;
-        $retro->participants = $request->participants;
+        $retro->title = $request->title;
+        $retro->description = $request->description;
+        $retro->owner_id = Auth::id();
         $retro->status = $request->status;
         $retro->save();
 
@@ -76,7 +80,10 @@ class RetroController extends Controller
      */
     public function show(Retro $retro)
     {
-        return view('retro.show', ['retro' => $retro]);
+        return view('retro.show', [
+            'retro' => $retro,
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
@@ -87,7 +94,10 @@ class RetroController extends Controller
      */
     public function edit(Retro $retro)
     {
-        return view('retro.edit', ['retro' => $retro]);
+        return view('retro.edit', [
+            'retro' => $retro,
+            'user' => Auth::user(),
+        ]);
     }
 
     /**
@@ -100,7 +110,7 @@ class RetroController extends Controller
     public function update(Request $request, Retro $retro)
     {
         $request->validate([
-            'name' => [
+            'title' => [
                 'required',
                 'max:255',
             ],
@@ -110,12 +120,14 @@ class RetroController extends Controller
             ],
         ]);
 
-        $retro->name = $request->name;
+        $retro->owner_id = Auth::id();
+        $retro->title = $request->title;
+        $retro->description = $request->description;
         $retro->status = $request->status;
         $retro->save();
 
-        // Session::flash('message', 'Successfully updated');
-        return redirect()->route('retro.edit', ['retro' => $retro]);
+        Session::flash('success', 'Successfully updated');
+        return redirect()->route('retro.index');
     }
 
     /**

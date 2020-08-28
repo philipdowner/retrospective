@@ -14,7 +14,15 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <p>
+                    {{ __('Welcome back. You are logged in, ' . Auth::user()->name) }}
+                    </p>
+
+                    <ul>
+                        <li><a href="{{ route('retro.index') }}">List my Retros</a></li>
+                        <li><a href="#">Create a new Retro</a></li>
+                        <li><a href="#">Edit my profile</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
