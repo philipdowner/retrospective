@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "retrospective",
+            "driver": "MySQL",
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "name": "Retrospective - Local",
+            "port": 3306,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "root",
+            "password": ""
+        }
+    ]
+}
