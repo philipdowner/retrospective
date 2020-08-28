@@ -15,8 +15,13 @@
 1. Has methods for grouping ideas into themes.
 1. Helps leaders identify the most impactful things to focus on changing for the next sprint.
 1. Avoids group think. Does not reveal everyone’s input/suggestions until the discussion period opens.
-1. Defined categories of Right, Wrong, Missing, Confused
+1. Defined categories of ['Liked', 'Learned', 'Lacked', 'Longed For'](https://funretro.io/4ls-liked-learned-lacked-longed-for)
 
 ### Retrospectives Is Not:
 1. A two way communication platform.
 1. A calendaring or invite system
+
+# Resources & Research
+* [How to make sprint retrospectives more actionable](https://builtin.com/product-management/sprint-retrospective)
+* [Action focused retrospectives](https://www.kbp.media/action-focused-retrospectives/)
+* [Continue, Stop, Start: a new take on retrospectives](https://www.intercom.com/blog/continue-stop-start-retrospectives/)
