@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Issue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IssueController extends Controller
 {
@@ -22,9 +23,12 @@ class IssueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('issue.create', [
+            'user' => Auth::user(),
+            'request' => $request,
+        ]);
     }
 
     /**
@@ -35,7 +39,15 @@ class IssueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $issue = new Issue;
+        $issue->retro_id = $request->route('id');
+        $issue->owner_id = $Auth::id();
+        $issue->description = $request->description;
+        $issue->category = $request->category;
+        $issue->save();
+
+        $request->session->flash('success', 'Your issue was added.');
+        return redirect()->route('retro.show', $request->route('id'));
     }
 
     /**

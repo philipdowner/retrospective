@@ -80,9 +80,20 @@ class RetroController extends Controller
      */
     public function show(Retro $retro)
     {
+        $issues = DB::table('issues')
+        ->where('retro_id', $retro->id)
+        ->orderBy('category', 'asc')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        foreach($issues as &$issue) {
+            $issue->user = \App\User::where('id', $issue->owner_id)->first();
+        }
+
         return view('retro.show', [
             'retro' => $retro,
             'user' => Auth::user(),
+            'issues' => $issues,
         ]);
     }
 

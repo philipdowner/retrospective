@@ -20,5 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
 Route::resource('retro', 'RetroController');
+Route::get('retro/{id}/issue/create', 'IssueController@create')->name('createissue');
